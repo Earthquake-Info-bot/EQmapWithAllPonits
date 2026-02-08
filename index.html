@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>地震マップv1.12.2WAP.1</title>
+<title>地震マップv1.12.2WAP.2</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <style>
 html, body {
@@ -448,6 +448,11 @@ resolve();
         }
       });
 
+        // ページ初期化時に1回だけ
+        if (!map.getPane('allPointsPane')) {
+          map.createPane('allPointsPane');
+          map.getPane('allPointsPane').style.zIndex = 300; // GeoJSON より下でもOK
+        }
       // ----- 全地点の小ドット描画 -----
       Object.values(coordMap).forEach(p => {
         L.circleMarker([p.lat, p.lon], {
@@ -455,7 +460,7 @@ resolve();
           color: '#666',
           fillColor: '#666',
           fillOpacity: 0.8,
-          pane: 'geojsonPane'  // 必要なら別 pane でもOK
+          pane: 'allPointsPane'  // 必要なら別 pane でもOK
         }).addTo(map);
       });
     
@@ -547,7 +552,7 @@ resolve();
       ${nameText}<br>
       M${magnitudeText}　深さ ${depthText}<br>
       ${tsunami}<br>
-      <span style="font-size:0.8em;font-weight:normal;">NAFY 地震マップv1.12.2WAP.1</span>
+      <span style="font-size:0.8em;font-weight:normal;">NAFY 地震マップv1.12.2WAP.2</span>
       `;
       
           // ===== 最大震度 =====
